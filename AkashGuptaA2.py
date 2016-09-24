@@ -71,16 +71,19 @@ class ShoppingList(App):
                     new_item = [name, str(price), str(priority), "r"]
                     self.list.append(new_item)
                     self.root.ids.instructionMenu.text = "{}, ${} with priority {} added to shopping list".format(name, price, priority)
-                    self.root.ids.input_name.text = ""
-                    self.root.ids.input_price.text = ""
-                    self.root.ids.input_priority.text = ""
+                    self.root.ids.item_name.text = ""
+                    self.root.ids.item_price.text = ""
+                    self.root.ids.item_priority.text = ""
+
+    def clearItem(self):
+        self.root.ids.item_name.text = ""
+        self.root.ids.item_price.text = ""
+        self.root.ids.item_priority.text = ""
     #def markCompleted
     # def completedListMian
-    # def clearItem
 
 
 
     # def saveItem
-    # def markCompleted
 
 ShoppingList().run()
