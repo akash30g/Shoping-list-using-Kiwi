@@ -1,0 +1,86 @@
+BoxLayout:
+    id: mainBox
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            BoxLayout:
+                orientation: 'vertical'
+                Button:
+                    id: BUTTON_FUNCTION_HERE
+                    text: 'List Requird'
+                    on_press: app.button_creator()
+
+                Button:
+                    id: BUTTON_FUNCTION_HERE
+                    text: 'List Completed'
+                    on_press: app.list_in_stock()
+
+                Label:
+                    text: 'Add a new item..'
+
+                Label:
+                    text: 'Name'
+
+                TextInput:
+                    id: Item_Price_Catch
+                    multiline: False
+                    write_tab: False
+
+                Label:
+                    text: 'Price'
+
+                TextInput:
+                    id: Item_Price_Catch
+                    multiline: False
+                    write_tab: False
+
+                Label:
+                    text: 'Priority'
+
+                TextInput:
+                    id: Item_Price_Catch
+                    multiline: False
+                    write_tab: False
+
+                Button:
+                    id: BUTTON_FUNCTION_HERE
+                    text: 'Add Item'
+                    on_press: app.button_creator()
+
+                Button:
+                    id: addButton
+                    text: 'Clear'
+                    on_release: app.press_add()
+
+                Button:
+                    id: BUTTON_FUNCTION_HERE
+                    text: 'Save and Exit'
+                    on_press: app.exit_program()
+
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: (1, 0.25)
+
+                    Label:
+                        id: save_button
+                        text: 'Save Items'
+
+                GridLayout:
+                    id: entriesBox
+                    cols: 1
+                    orientation: 'vertical'
+
+        Label:
+            id: BUTTON_FUNCTION_HERE
+            font_size: 20
+            text: app.status_text
+            size_hint_y: 0.1
+
+            color: (1, 1, 0, 1)
+
+
