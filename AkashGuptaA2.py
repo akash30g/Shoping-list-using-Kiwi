@@ -1,9 +1,6 @@
-from kivy.app import App  # Import relevant kivy function
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
-from kivy.uix.listview import ListItemButton
-from kivy.uix.boxlayout import BoxLayout
-from kivy.adapters.listadapter import ListAdapter
 import csv
 import operator
 
@@ -52,11 +49,37 @@ class ShoppingList(App):
         else:
             self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
 
+    def addItem(self):
+        name = self.root.ids.item_name.text
+        price = self.root.ids.item_price.text
+        priority = self.root.ids.item_priority.text
 
+        if name == "" or price == "" or priority == "":
+            self.root.ids.instructionMenu.text = "All fields must be completed"
+        else:
+            try:
+                price = float(self.root.ids.item_price.text)
+                priority = int(self.root.ids.item_priority.text)
+            except ValueError:
+                self.root.ids.instructionMenu.text = "Please enter a valid value"
+            else:
+                if price <= 0:
+                    self.root.ids.instructionMenu.text = "Price entered must be >= $0"
+                elif priority != 1 and priority != 2 and priority != 3:
+                    self.root.ids.instructionMenu.text = "Priority must be 1, 2 or 3"
+                else:
+                    new_item = [name, str(price), str(priority), "r"]
+                    self.list.append(new_item)
+                    self.root.ids.instructionMenu.text = "{}, ${} with priority {} added to shopping list".format(name, price, priority)
+                    self.root.ids.input_name.text = ""
+                    self.root.ids.input_price.text = ""
+                    self.root.ids.input_priority.text = ""
     #def markCompleted
     # def completedListMian
     # def clearItem
-    # def addItem
+
+
+
     # def saveItem
     # def markCompleted
 
