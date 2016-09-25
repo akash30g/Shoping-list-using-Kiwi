@@ -26,21 +26,21 @@ class ShoppingList(App):
                 if int(each_item[2]) == 1:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[1, 0, 0, 1])
                     itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
+                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
                 elif int(each_item[2]) == 2:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 0, 1, 1])
                     itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
+                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
                 else:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 1, 0, 1])
                     itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
+                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
@@ -90,7 +90,7 @@ class ShoppingList(App):
             if "c" in item[3]:
                 itemButton = Button(text=item[0])
                 itemButton.item = item
-                itemButton.bind(on_press= partial(self.markCompleted,"2"))
+                itemButton.bind(on_press=partial(self.markCompleted, "2"))
                 self.root.ids.itemDisplay.add_widget(itemButton)
                 count += 1
                 total += float(item[1])
@@ -105,14 +105,43 @@ class ShoppingList(App):
     def markCompleted(self,val,instance):
         if int(val) == 1:
             name = instance.text
-            print(instance.item[3])
             instance.item[3] = "c"
             self.requiredListMain()
             self.root.ids.instructionMenu.text = ("{} has been marked as completed".format(name))
         else:
-            self.root.ids.instructionMenu.text = "{}, ${} with priority{} is completed".format(instance.item[0],
+            self.root.ids.instructionMenu.text = "{}, ${} with priority {} is completed".format(instance.item[0],
                                                                                        instance.item[1],
                                                                                        instance.item[2])
    # def saveItem
+
+
+    def saveItem(self):
+        write_file = open("item_list.csv", "a")
+        count = 0
+        for item in self.list:
+            if "c" in item[3]:
+                count += 1
+                if count == 1:
+                    write_file2 = open("item_list.csv", "w")
+                    write_file2.writelines(item[0] + "," + item[1] + "," + item[2] + "," + "c")
+                    write_file2.close()
+                else:
+                    write_file.writelines("\n" + item[0] + "," + item[1] + "," + item[2] + "," + "c")
+            else:
+                write_file.writelines("")
+        for item in self.list:
+            if "r" in item[3]:
+                count += 1
+                if count == 1:
+                    write_file2 = open("item_list.csv", "w")
+                    write_file2.writelines(item[0] + "," + item[1] + "," + item[2] + "," + "r")
+                    write_file2.close()
+                else:
+                    write_file.writelines("\n" + item[0] + "," + item[1] + "," + item[2] + "," + "r")
+        if count == 0:
+            file_writer2 = open("item_list.csv", "w")
+            file_writer2.close()
+        self.root.ids.instructionMenu.text = "{} items saved to items.csv".format(count)
+        write_file.close()
 
 ShoppingList().run()
