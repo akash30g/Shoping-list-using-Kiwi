@@ -1,5 +1,30 @@
+
+
 BoxLayout:
     id: mainBox
+    Popup:
+        id: popup
+        title: "EXIT THE PROGRAM"
+        size_hint_y: 0.5
+        size_hint_x: 0.5
+        on_parent:
+            if self.parent == mainBox: self.parent.remove_widget(self)
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Are you sure you want to quit?'
+                width: 100
+                font_size: 20
+            Button:
+                id: close_button
+                text: 'Close'
+                on_press: app.stop()
+                size_hint_y: 0.4
+            Button:
+                id: cancel_button
+                text: 'Cancel'
+                size_hint_y: 0.4
+                on_press: app.requiredListMain()
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
@@ -45,7 +70,7 @@ BoxLayout:
                 Button:
                     id: saveButton
                     text: 'Save and Exit'
-                    on_press: app.stop()
+                    on_press: app.saveItem()
             BoxLayout:
                 orientation: 'vertical'
                 BoxLayout:

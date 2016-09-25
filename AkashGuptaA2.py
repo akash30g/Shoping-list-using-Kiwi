@@ -18,6 +18,7 @@ class ShoppingList(App):
     def requiredListMain(self):
         count = 0
         total = 0
+        self.root.ids.popup.dismiss()
         self.root.ids.itemDisplay.clear_widgets()
         requiredList = sorted(self.list, key=operator.itemgetter(2))
         self.root.ids.instructionMenu.text = "Click items to mark an item as completed. Priotities: RED (1), BLUE (2) and GREEN (3)"
@@ -143,5 +144,6 @@ class ShoppingList(App):
             file_writer2.close()
         self.root.ids.instructionMenu.text = "{} items saved to items.csv".format(count)
         write_file.close()
+        self.root.ids.popup.open()
 
 ShoppingList().run()
