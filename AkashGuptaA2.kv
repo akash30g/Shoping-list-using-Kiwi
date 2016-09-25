@@ -15,6 +15,10 @@ BoxLayout:
                 text: 'Are you sure you want to quit?'
                 width: 100
                 font_size: 20
+            Label:
+                id: show
+                font_size: 20
+                color: (1, 1, 0, 1)
             Button:
                 id: close_button
                 text: 'Close'
@@ -24,7 +28,7 @@ BoxLayout:
                 id: cancel_button
                 text: 'Cancel'
                 size_hint_y: 0.4
-                on_press: app.requiredListMain()
+                on_press: app.required_list_main()
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
@@ -34,11 +38,11 @@ BoxLayout:
                 Button:
                     id: mainButton
                     text: 'List Required'
-                    on_press: app.requiredListMain()
+                    on_press: app.required_list_main()
                 Button:
                     id: mainButton
                     text: 'List Completed'
-                    on_press: app.completedListMain()
+                    on_press: app.completed_list_main()
                 Label:
                     text: 'Add a new item..'
                 Label:
@@ -62,15 +66,15 @@ BoxLayout:
                 Button:
                     id: addButton
                     text: 'Add Item'
-                    on_press: app.addItem()
+                    on_press: app.add_item()
                 Button:
                     id: clearButton
                     text: 'Clear'
-                    on_release: app.clearItem()
+                    on_release: app.clear_item()
                 Button:
                     id: saveButton
                     text: 'Save and Exit'
-                    on_press: app.saveItem()
+                    on_press: app.save_item()
             BoxLayout:
                 orientation: 'vertical'
                 BoxLayout:

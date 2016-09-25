@@ -5,43 +5,46 @@ import csv
 import operator
 from functools import partial
 
+
 class ShoppingList(App):
+
     def build(self):
         self.file_opener = open("item_list.csv")
         self.file_reader = csv.reader(self.file_opener)
         self.list = sorted(self.file_reader, key=operator.itemgetter(2))
         self.title = "Shopping List 2.0"
         self.root = Builder.load_file("AkashGuptaA2.kv")
-        self.requiredListMain()
+        self.required_list_main()
         return self.root
-    def requiredListMain(self):
+
+    def required_list_main(self):
         count = 0
         total = 0
         self.root.ids.popup.dismiss()
         self.root.ids.itemDisplay.clear_widgets()
-        requiredList = sorted(self.list, key=operator.itemgetter(2))
+        required_list = sorted(self.list, key=operator.itemgetter(2))
         self.root.ids.instructionMenu.text = "Click items to mark an item as completed. Priotities: RED (1), BLUE (2) and GREEN (3)"
-        for each_item in requiredList:
+        for each_item in required_list:
             if "r" in each_item[3]:
                 if int(each_item[2]) == 1:
-                    itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[1, 0, 0, 1])
-                    itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
-                    self.root.ids.itemDisplay.add_widget(itemButton)
+                    item_button = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[1, 0, 0, 1])
+                    item_button.item = each_item
+                    item_button.bind(on_press=partial(self.mark_completed, "1"))
+                    self.root.ids.itemDisplay.add_widget(item_button)
                     count += 1
                     total += float(each_item[1])
                 elif int(each_item[2]) == 2:
-                    itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 0, 1, 1])
-                    itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
-                    self.root.ids.itemDisplay.add_widget(itemButton)
+                    item_button = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 0, 1, 1])
+                    item_button.item = each_item
+                    item_button.bind(on_press=partial(self.mark_completed, "1"))
+                    self.root.ids.itemDisplay.add_widget(item_button)
                     count += 1
                     total += float(each_item[1])
                 else:
-                    itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 1, 0, 1])
-                    itemButton.item = each_item
-                    itemButton.bind(on_press=partial(self.markCompleted, "1"))
-                    self.root.ids.itemDisplay.add_widget(itemButton)
+                    item_button = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 1, 0, 1])
+                    item_button.item = each_item
+                    item_button.bind(on_press=partial(self.mark_completed, "1"))
+                    self.root.ids.itemDisplay.add_widget(item_button)
                     count += 1
                     total += float(each_item[1])
         if count == 0:
@@ -49,7 +52,8 @@ class ShoppingList(App):
             self.root.ids.itemDisplay.clear_widgets()
         else:
             self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
-    def addItem(self):
+
+    def add_item(self):
         name = self.root.ids.item_name.text
         price = self.root.ids.item_price.text
         priority = self.root.ids.item_priority.text
@@ -74,23 +78,24 @@ class ShoppingList(App):
                     self.root.ids.item_name.text = ""
                     self.root.ids.item_price.text = ""
                     self.root.ids.item_priority.text = ""
-        self.requiredListMain()
-    def clearItem(self):
+        self.required_list_main()
+
+    def clear_item(self):
         self.root.ids.item_name.text = ""
         self.root.ids.item_price.text = ""
         self.root.ids.item_priority.text = ""
 
-    def completedListMain(self):
+    def completed_list_main(self):
         count = 0
         total = 0
         self.root.ids.itemDisplay.clear_widgets()
-        completedList = sorted(self.list, key=operator.itemgetter(2))
-        for item in completedList:
+        completed_list = sorted(self.list, key=operator.itemgetter(2))
+        for item in completed_list:
             if "c" in item[3]:
-                itemButton = Button(text="{} ${}".format(item[0], item[1]))
-                itemButton.item = item
-                itemButton.bind(on_press=partial(self.markCompleted, "2"))
-                self.root.ids.itemDisplay.add_widget(itemButton)
+                item_button = Button(text="{} ${}".format(item[0], item[1]))
+                item_button.item = item
+                item_button.bind(on_press=partial(self.mark_completed, "2"))
+                self.root.ids.itemDisplay.add_widget(item_button)
                 count += 1
                 total += float(item[1])
         if count == 0:
@@ -98,17 +103,16 @@ class ShoppingList(App):
             self.root.ids.itemDisplay.clear_widgets()
         else:
             self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
-    def markCompleted(self,val,instance):
+
+    def mark_completed(self, val, instance):
         if int(val) == 1:
-            name = instance.text
             instance.item[3] = "c"
-            self.requiredListMain()
-            self.root.ids.instructionMenu.text = ("{} has been marked as completed".format(name))
+            self.required_list_main()
+            self.root.ids.instructionMenu.text = "{}, ${} with priority {} is completed".format(instance.item[0], instance.item[1], instance.item[2])
         else:
-            self.root.ids.instructionMenu.text = "{}, ${} with priority {} is completed".format(instance.item[0],
-                                                                                       instance.item[1],
-                                                                                       instance.item[2])
-    def saveItem(self):
+            self.root.ids.instructionMenu.text = "{}, ${} with priority {} is completed".format(instance.item[0], instance.item[1], instance.item[2])
+
+    def save_item(self):
         write_file = open("item_list.csv", "a")
         count = 0
         for item in self.list:
@@ -137,5 +141,7 @@ class ShoppingList(App):
         self.root.ids.instructionMenu.text = "{} items saved to items.csv".format(count)
         write_file.close()
         self.root.ids.popup.open()
+        self.root.ids.show.text = "{} items saved to items.csv".format(count)
+
 
 ShoppingList().run()
