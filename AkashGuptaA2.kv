@@ -45,7 +45,7 @@ BoxLayout:
                 Button:
                     id: saveButton
                     text: 'Save and Exit'
-                    on_press: app.saveItem()
+                    on_press: app.stop()
             BoxLayout:
                 orientation: 'vertical'
                 BoxLayout:
@@ -53,6 +53,7 @@ BoxLayout:
                     size_hint: (1, 0.25)
                     Label:
                         id: itemInfo
+                        font_size: 20
                         size_hint_y: 0.1
                         color: (1, 1, 0, 1)
                 GridLayout:
@@ -60,9 +61,12 @@ BoxLayout:
                     cols: 1
                     orientation: 'vertical'
         Label:
+            text_size: self.size
             id: instructionMenu
             font_size: 20
             size_hint_y: 0.1
             color: (1, 1, 0, 1)
+            valign: 'middle'
+            halign: 'center'
 
 
