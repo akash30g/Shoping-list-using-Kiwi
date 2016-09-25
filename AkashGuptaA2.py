@@ -14,7 +14,6 @@ class ShoppingList(App):
         self.root = Builder.load_file("AkashGuptaA2.kv")
         self.requiredListMain()
         return self.root
-
     def requiredListMain(self):
         count = 0
         total = 0
@@ -50,7 +49,6 @@ class ShoppingList(App):
             self.root.ids.itemDisplay.clear_widgets()
         else:
             self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
-
     def addItem(self):
         name = self.root.ids.item_name.text
         price = self.root.ids.item_price.text
@@ -76,7 +74,7 @@ class ShoppingList(App):
                     self.root.ids.item_name.text = ""
                     self.root.ids.item_price.text = ""
                     self.root.ids.item_priority.text = ""
-
+        self.requiredListMain()
     def clearItem(self):
         self.root.ids.item_name.text = ""
         self.root.ids.item_price.text = ""
@@ -100,9 +98,6 @@ class ShoppingList(App):
             self.root.ids.itemDisplay.clear_widgets()
         else:
             self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
-
-
-
     def markCompleted(self,val,instance):
         if int(val) == 1:
             name = instance.text
@@ -113,9 +108,6 @@ class ShoppingList(App):
             self.root.ids.instructionMenu.text = "{}, ${} with priority {} is completed".format(instance.item[0],
                                                                                        instance.item[1],
                                                                                        instance.item[2])
-   # def saveItem
-
-
     def saveItem(self):
         write_file = open("item_list.csv", "a")
         count = 0
