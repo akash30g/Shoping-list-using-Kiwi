@@ -89,7 +89,7 @@ class ShoppingList(App):
         completedList = sorted(self.list, key=operator.itemgetter(2))
         for item in completedList:
             if "c" in item[3]:
-                itemButton = Button(text=item[0])
+                itemButton = Button(text="{} ${}".format(item[0], item[1]))
                 itemButton.item = item
                 itemButton.bind(on_press=partial(self.markCompleted, "2"))
                 self.root.ids.itemDisplay.add_widget(itemButton)
