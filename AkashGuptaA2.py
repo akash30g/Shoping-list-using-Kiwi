@@ -3,6 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 import csv
 import operator
+from functools import partial
 
 class ShoppingList(App):
     def build(self):
@@ -18,28 +19,28 @@ class ShoppingList(App):
         count = 0
         total = 0
         self.root.ids.itemDisplay.clear_widgets()
-        required_list = sorted(self.list, key=operator.itemgetter(2))
-        self.root.ids.instructionMenu.text = "Click items to mark an item as completed"
-        for each_item in required_list:
+        requiredList = sorted(self.list, key=operator.itemgetter(2))
+        self.root.ids.instructionMenu.text = "Click items to mark an item as completed. Priotities: RED (1), BLUE (2) and GREEN (3)"
+        for each_item in requiredList:
             if "r" in each_item[3]:
                 if int(each_item[2]) == 1:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[1, 0, 0, 1])
                     itemButton.item = each_item
-                    #itemButton.bind(on_release=self.markCompleted)
+                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
                 elif int(each_item[2]) == 2:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 0, 1, 1])
                     itemButton.item = each_item
-                    #itemButton.bind(on_release=self.markCompleted)
+                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
                 else:
                     itemButton = Button(text="{} ${}".format(each_item[0], each_item[1]), background_color=[0, 1, 0, 1])
                     itemButton.item = each_item
-                    #itemButton.bind(on_release=self.markCompleted)
+                    itemButton.bind(on_press=partial(self.markCompleted,"1"))
                     self.root.ids.itemDisplay.add_widget(itemButton)
                     count += 1
                     total += float(each_item[1])
@@ -79,11 +80,39 @@ class ShoppingList(App):
         self.root.ids.item_name.text = ""
         self.root.ids.item_price.text = ""
         self.root.ids.item_priority.text = ""
-    #def markCompleted
-    # def completedListMian
+
+    def completedListMain(self):
+        count = 0
+        total = 0
+        self.root.ids.itemDisplay.clear_widgets()
+        completedList = sorted(self.list, key=operator.itemgetter(2))
+        for item in completedList:
+            if "c" in item[3]:
+                itemButton = Button(text=item[0])
+                itemButton.item = item
+                itemButton.bind(on_press= partial(self.markCompleted,"2"))
+                self.root.ids.itemDisplay.add_widget(itemButton)
+                count += 1
+                total += float(item[1])
+        if count == 0:
+            self.root.ids.itemInfo.text = "No completed items"
+            self.root.ids.itemDisplay.clear_widgets()
+        else:
+            self.root.ids.itemInfo.text = "Total price expected for {} items: ${}".format(count, total)
 
 
 
-    # def saveItem
+    def markCompleted(self,val,instance):
+        if int(val) == 1:
+            name = instance.text
+            print(instance.item[3])
+            instance.item[3] = "c"
+            self.requiredListMain()
+            self.root.ids.instructionMenu.text = ("{} has been marked as completed".format(name))
+        else:
+            self.root.ids.instructionMenu.text = "{}, ${} with priority{} is completed".format(instance.item[0],
+                                                                                       instance.item[1],
+                                                                                       instance.item[2])
+   # def saveItem
 
 ShoppingList().run()
